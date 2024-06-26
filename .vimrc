@@ -1,6 +1,4 @@
-" Use vim settings, rather than vi settings
-" This must be first, because it changes other options as a side effect.
-set nocompatible
+set nocompatible	                    " need this to use vim rather than vi settings
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -9,41 +7,59 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 
 call plug#begin()
-	Plug 'itchyny/lightline.vim'
-	Plug 'rakr/vim-one'
-  Plug 'morhetz/gruvbox'
-  Plug 'dracula/vim', { 'as': 'dracula' }
-  Plug 'preservim/nerdtree'
-  Plug 'preservim/vim-indent-guides'
+" fuzzy finder
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" git integration
+Plug 'tpope/vim-fugitive'
+
+" file viewer
+Plug 'preservim/nerdtree'
+
+" colorscheme
+Plug 'sainnhe/everforest'	
 call plug#end()
 
-set ai															" auto indenting
-set ruler														" show cursor position
-set mouse=a													" enable mouse
-set number													" show line numbers
 
-set t_Co=256												" iterm supports 256 colors
-syntax on														" syntax highlighting
-set termguicolors
-colorscheme dracula
 
-set laststatus=2			              " lightline enabling thing
-set noshowmode				              " show what mode we're editing in lightline
-set showcmd						              " show command
-let g:lightline = {
-			\ 'colorscheme':	'dracula',
-			\ }
+" colors:
+syntax on				                " enable syntax highlighting
 
-set expandtab				                " use spaces for indenting
-set tabstop=2				                " a tab appears as 2 spaces
-set softtabstop=2		                " when hitting <BS>, pretend like removed tab
-set shiftwidth=2		                " spaces for autoindenting
-set breakindent			                " visual indentation at linebreak
-set linebreak				                " linebreak at word boundaries
-set backspace=indent,eol,start      " make backspace feel natural
+set t_Co=256				            " iterm2 supports 256 colors
+set termguicolors			            " rich colorscheme with terminal support
 
-set hlsearch                        " highlight search results
-set incsearch                       " incremental search highlight
+set background=dark                     " darkmode
+let g:everforest_background='hard'      " higher contrast
+let g:everforest_better_performance = 1 " higher performance?
+colorscheme everforest		            " i like this bc it's green
 
-set modelines=0			                " Security
+" tabs and indents:
+set tabstop=4				            " tabs are 4 columns wide
+set softtabstop=4			            " tabs treated as 4 spaces on insertion/delete
+set shiftwidth=4			            " how many columns to shift when using `>>`
+set expandtab				            " convert tabs to spaces (on by convention / PEP8 ?)
+set backspace=indent,eol,start          " delete tabs, newlines, etc...
+
+set smartindent				            " enable autoindent
+
+" line numbers:
+set number				                " enable line numbers
+set numberwidth=4			            " number of columns to use for line numbers
+
+" searching and highlighting:
+set ignorecase				            " combined = ignore case unless capitals are used
+set smartcase
+set incsearch				            " highlight incrementally while searching
+set nohlsearch				            " turn off highlights after search completes? -- look into this
+
+" buffer related:
+set hidden				                " open new buffer before saving
+
+" scrolling:
+set scrolloff=8				            " start scrolling when 8 lines from top/bottom (finally...)
+
+" mouse:
+set mouse=a				                " enable mouse support
+
 
